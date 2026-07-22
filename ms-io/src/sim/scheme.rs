@@ -960,85 +960,6 @@ impl AcquisitionScheme {
     }
 }
 
-#[cfg(feature = "sciex")]
-impl AcquisitionScheme {
-    /// Extract the SWATH scheme from a real SCIEX ZenoTOF `.wiff` method.
-    ///
-    /// Each SWATH window becomes a single-window [`DiaMs2Frame`] (no ion
-    /// mobility) preceded by an MS1.
-    ///
-    /// **Collision energy** is caller-supplied (`collision_energy`), because
-    /// SCIEX SWATH uses *rolling* CE computed by the instrument from an m/z
-    /// formula at acquisition time — it is **not** stored per-window in the
-    /// `.wiff` method (verified: the per-window MS2 parameter streams are
-    /// byte-identical across windows). Pass [`CollisionEnergyPolicy::Unknown`]
-    /// to leave it unset, or a [`CollisionEnergyPolicy::Linear`] rolling model.
-    /// The `.wiff` method also lacks run timing, so `cycle_time_s` /
-    /// `gradient_length_s` are caller-supplied. The returned scheme is validated.
-    pub fn from_sciex_wiff<P: AsRef<std::path::Path>>(
-        path: P,
-        cycle_time_s: f64,
-        gradient_length_s: f64,
-        collision_energy: CollisionEnergyPolicy,
-    ) -> io::Result<Self> {
-        let method = sciexwiff::read_method(path)?;
-        if method.swath_windows.is_empty() {
-            return Err(io::Error::new(
-                io::ErrorKind::InvalidData,
-                "no SWATH windows in the .wiff method",
-            ));
-        }
-        let mut cycle = vec![AcquisitionEvent::Ms1(Ms1Event {
-            analyzer: Analyzer::Tof,
-            data_mode: DataMode::Centroid,
-            mz_range: None,
-            duration_s: None,
-        })];
-        let mut lo = f64::INFINITY;
-        let mut hi = f64::NEG_INFINITY;
-        let n = method.swath_windows.len();
-        for w in &method.swath_windows {
-            let iso = IsolationWindow {
-                center_mz: w.center_mz(),
-                width_mz: w.width_mz(),
-            };
-            lo = lo.min(iso.lower());
-            hi = hi.max(iso.upper());
-            cycle.push(AcquisitionEvent::DiaMs2Frame(DiaMs2Frame {
-                windows: vec![DiaWindow {
-                    isolation: iso,
-                    collision_energy,
-                    geometry: DiaGeometry::MzOnly,
-                }],
-                analyzer: Analyzer::Tof,
-                data_mode: DataMode::Centroid,
-                duration_s: None,
-                vendor_group_id: None,
-            }));
-        }
-        let scheme = AcquisitionScheme {
-            version: SCHEME_VERSION,
-            instrument: InstrumentKind::SciexZenoTof,
-            cycle,
-            repeat: RepeatPolicy::FixedCycleTime {
-                cycle_time_s,
-                gradient_length_s,
-                start_time_s: 0.0,
-            },
-            mz_range: (lo, hi),
-            provenance: Provenance {
-                source: SchemeSource::ExtractedSciex,
-                notes: format!(
-                    "extracted from SCIEX .wiff method ({n} SWATH windows; CE caller-supplied, timing caller-supplied)"
-                ),
-            },
-        };
-        scheme
-            .validate()
-            .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-        Ok(scheme)
-    }
-}
 
 #[cfg(feature = "thermo")]
 impl AcquisitionScheme {
@@ -1866,43 +1787,7 @@ mod tests {
         eprintln!("bruker_info_round_trip OK: {} (frame, group) rows over {num_frames} frames", a.len());
     }
 
-    #[cfg(feature = "sciex")]
-    #[test]
-    fn from_sciex_wiff_extracts_windows() {
-        let wiff = match std::env::var("TIMSIM_SCIEX_WIFF") {
-            Ok(p) => p,
-            Err(_) => {
-                eprintln!("SKIP from_sciex_wiff_extracts_windows: set TIMSIM_SCIEX_WIFF=<.wiff>");
-                return;
-            }
-        };
-        // Default: CE unknown (rolling CE isn't in the .wiff method).
-        let s = AcquisitionScheme::from_sciex_wiff(&wiff, 3.5, 1800.0, CollisionEnergyPolicy::Unknown)
-            .expect("extract");
-        s.validate().expect("valid scheme");
-        assert_eq!(s.instrument, InstrumentKind::SciexZenoTof);
-        assert_eq!(s.ms1_count(), 1);
-        let n = s.windows().count();
-        assert!(n > 10, "expected many SWATH windows, got {n}");
-        for w in s.windows() {
-            assert!(matches!(w.geometry, DiaGeometry::MzOnly));
-            assert!(matches!(w.collision_energy, CollisionEnergyPolicy::Unknown));
-            assert!(w.collision_energy.at(w.isolation.center_mz).is_none());
-        }
-        // Supplying a rolling-CE Linear model gives a resolvable, finite CE.
-        let rolling = CollisionEnergyPolicy::Linear { intercept: 5.0, slope_per_mz: 0.045 };
-        let s2 = AcquisitionScheme::from_sciex_wiff(&wiff, 3.5, 1800.0, rolling).expect("extract");
-        s2.validate().expect("valid with rolling CE");
-        for w in s2.windows() {
-            let ce = w.collision_energy.at(w.isolation.center_mz).expect("resolvable CE");
-            assert!(ce.is_finite() && ce > 0.0);
-        }
-        eprintln!(
-            "from_sciex_wiff OK: SciexZenoTof, {} SWATH windows, mz {:.1}..{:.1}",
-            n, s.mz_range.0, s.mz_range.1
-        );
-    }
-
+    
     #[cfg(feature = "thermo")]
     #[test]
     fn from_thermo_raw_extracts_cycle() {

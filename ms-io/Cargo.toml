@@ -55,5 +55,14 @@ mzdata = { version = "0.63", optional = true }
 thermo = ["dep:thermorawfile"]
 mzml = ["dep:mzdata"]
 
+
+[[example]]
+name = "thermo_m0_survival"
+required-features = ["thermo"]
+
+[[example]]
+name = "thermo_m1_seam"
+required-features = ["thermo"]
+
 [package.metadata.docs.rs]
 features = ["thermo", "mzml"]
