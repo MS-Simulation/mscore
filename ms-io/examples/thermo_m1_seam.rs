@@ -1,5 +1,5 @@
 //! M1 writer smoke through the ACTUAL driver seam (THERMO_PLAN.md): author every template slot via
-//! `rustdf::sim::acquisition::ThermoRawWriter` (the single-cursor, slot-order, ms-level-matched path the
+//! `ms_io::sim::acquisition::ThermoRawWriter` (the single-cursor, slot-order, ms-level-matched path the
 //! parquet driver will use), then `finalize` a complete valid `.raw`. Unlike M0 (which used the low-level
 //! `RawFile` directly), this exercises `write_scan(ScanDescriptor)` → `author_profile` (MS1) /
 //! `author_centroids` (MS2), the zero-residual full-coverage contract, and the finalize rebuild.
@@ -8,9 +8,9 @@
 //! flag) survives bit-for-bit (isolation:None preserves the template's DIA windows); MS2 sentinels land in
 //! exactly the right early/mid/late scans (no cursor drift); MS1 profile slots are authored + readable.
 //!
-//! Run: cargo run -p rustdf --features thermo --example thermo_m1_seam -- <template.raw> <out.raw>
+//! Run: cargo run -p ms-io --features thermo --example thermo_m1_seam -- <template.raw> <out.raw>
 
-use rustdf::sim::acquisition::{AcquisitionWriter, ScanDescriptor, ThermoRawWriter};
+use ms_io::sim::acquisition::{AcquisitionWriter, ScanDescriptor, ThermoRawWriter};
 use thermorawfile::RawFile;
 
 #[derive(PartialEq, Clone)]

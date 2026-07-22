@@ -14,9 +14,9 @@
 // Usage:
 //   cargo run --release --example compare_all_converters -- <libtimsdata.so> <data.d> [frame_id]
 
-use rustdf::data::calibration::{MobilityCalibrator, MzCalibrator};
-use rustdf::data::meta::{read_global_meta_sql, read_mz_calibration, read_tims_calibration};
-use rustdf::data::raw::BrukerTimsDataLibrary;
+use ms_io::data::calibration::{MobilityCalibrator, MzCalibrator};
+use ms_io::data::meta::{read_global_meta_sql, read_mz_calibration, read_tims_calibration};
+use ms_io::data::raw::BrukerTimsDataLibrary;
 use rusqlite::Connection;
 use std::env;
 use std::path::Path;

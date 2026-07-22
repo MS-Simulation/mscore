@@ -13,7 +13,7 @@
 // definitions from `dia_ms_ms_windows` and `dia_ms_ms_info`.
 
 use rusqlite::Connection;
-use rustdf::data::raw::BrukerTimsDataLibrary;
+use ms_io::data::raw::BrukerTimsDataLibrary;
 use std::env;
 use std::fs::File;
 use std::io::{BufWriter, Write};

@@ -2,9 +2,9 @@
 //! calibration/metadata from a real DDA reference `.d` (`argv[2]`) so a vendor/imspy reader opens it.
 //! Used to validate the writer's DDA tables against a real `.d` schema and `TimsDatasetDDA` round-trip.
 //!
-//! Run: `cargo run -p rustdf --example dda_spike -- /tmp/dda_out.d /path/to/real_dda.d`
+//! Run: `cargo run -p ms-io --example dda_spike -- /tmp/dda_out.d /path/to/real_dda.d`
 
-use rustdf::data::tdf_writer::{DdaPasefWindow, DdaPrecursor, RenderedFrame, TdfWriter, TdfWriterConfig};
+use ms_io::data::tdf_writer::{DdaPasefWindow, DdaPrecursor, RenderedFrame, TdfWriter, TdfWriterConfig};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<String> = std::env::args().collect();

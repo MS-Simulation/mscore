@@ -5,7 +5,7 @@
 //! if the template's method metadata does not survive a rewrite, Thermo readers / DiaNN would see a
 //! file that no longer matches the original DIA method.
 //!
-//! Run: cargo run -p rustdf --features thermo --example thermo_m0_survival -- <template.raw> <out.raw>
+//! Run: cargo run -p ms-io --features thermo --example thermo_m0_survival -- <template.raw> <out.raw>
 
 use thermorawfile::RawFile;
 
