@@ -1,13 +1,13 @@
 [package]
 name = "ms-io"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["David Teschner <davidteschner@googlemail.com>"] # Add your name and email
-description = "Bruker timsTOF TDF read/write, with optional Thermo .raw and mzML support. Part of the rustims foundation."
-license = "MIT" 
-repository = "https://github.com/theGreatHerrLebert/mscore" 
-documentation = "https://docs.rs/ms-io" 
-readme = "README.md" 
+description = "Bruker timsTOF TDF read/write. Part of the rustims foundation."
+license = "MIT"
+repository = "https://github.com/theGreatHerrLebert/mscore"
+documentation = "https://docs.rs/ms-io"
+readme = "README.md"
 keywords = ["dataframe", "sql", "compression", "parallel"]
 categories = ["data-structures", "science"]
 rust-version = "1.84"
@@ -17,8 +17,6 @@ name = "ms_io"
 path = "src/lib.rs"
 
 [dependencies]
-# Command-line argument parsing
-clap = { version = "4.5.32", features = ["derive"] }
 # Dynamic library loading
 libloading = "0.8.6"
 # SQLite with bundled binaries
@@ -40,29 +38,3 @@ rand = "0.8.5"
 rustc-hash = "2.1.0"
 bincode = "1.3.3"
 polars = { version = "0.43.1", features = ["ndarray", "parquet", "dtype-u8"] }
-# Thermo .raw writer (public repo; only built with the `thermo` feature)
-# Local working branch (feat/profile-authoring-drop-and-account, on top of the pinned 9e908ba) while the
-# profile-authoring port is in progress. Revert to the git rev once the changes land upstream.
-thermorawfile = { version = "0.1.0", optional = true }
-# Open mzML writer (Joshua Klein's mzdata); only built with the `mzml` feature. The
-# vendor-neutral output path: render -> mzML (readable by DiaNN/alphaDIA, mzprov-signable).
-# Used for SCIEX, whose proprietary .wiff.scan spectra are not authored.
-mzdata = { version = "0.63", optional = true }
-
-[features]
-# Off by default: enable the Thermo .raw / SCIEX .wiff extractors + writers, or the
-# open mzML writer. Each vendor extractor needs build-time access to its private repo.
-thermo = ["dep:thermorawfile"]
-mzml = ["dep:mzdata"]
-
-
-[[example]]
-name = "thermo_m0_survival"
-required-features = ["thermo"]
-
-[[example]]
-name = "thermo_m1_seam"
-required-features = ["thermo"]
-
-[package.metadata.docs.rs]
-features = ["thermo", "mzml"]
