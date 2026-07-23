@@ -1,18 +1,38 @@
-# mscore — foundation crates for the rustims federation
+# mscore — foundation for the rustims / timsim federation
 
-Pure-Rust, PyO3-free foundation of the [rustims](https://github.com/theGreatHerrLebert/rustims)
-ecosystem. Published on crates.io:
+The low-level foundation of the [rustims](https://github.com/theGreatHerrLebert/rustims) /
+[timsim](https://github.com/theGreatHerrLebert/timsim) ecosystem: **PyO3-free Rust crates** (published on
+crates.io) **plus a lean Python-bindings wheel** ([`mscorepy`](./mscorepy)) that exposes their MS-general
+primitives to Python — the base the [`pepdl`](https://github.com/theGreatHerrLebert/pepdl) deep-learning stack
+builds on.
+
+> Note: this repo is no longer pure Rust. The three crates below are PyO3-free; `mscorepy` is a thin pyo3
+> wheel *over* them, kept in the same repo so the bindings can't drift from the crates they bind.
+
+## Rust crates (crates.io)
 
 | crate | what | crates.io |
 |---|---|---|
 | [`ms-chem`](./ms-chem) | L0 chemistry leaf: elements, residues, sum formulas, isotopes (CIAAW), UNIMOD, backbone fragments | [ms-chem](https://crates.io/crates/ms-chem) |
 | [`mscore`](./mscore) | mass-spec data structures + algorithms; sources all chemistry from `ms-chem` | [mscore](https://crates.io/crates/mscore) |
+| [`ms-io`](./ms-io) | Bruker timsTOF TDF read/write (pure Bruker I/O since 0.2.0) | [ms-io](https://crates.io/crates/ms-io) |
 
-`mscore` depends on `ms-chem` — one source of truth for chemistry. The equivalence of the two
-was proven by a differential-parity suite (see `CHEM_PARITY.md` in rustims) before unification;
-that work also surfaced and fixed a selenocysteine-mass bug in the legacy tables.
+`mscore` depends on `ms-chem` — one source of truth for chemistry (equivalence proven by a differential-parity
+suite before unification, which also surfaced and fixed a selenocysteine-mass bug in the legacy tables).
+`ms-io` builds on `mscore`.
 
-Extracted from the rustims monorepo (at `4f078a66`). The cross-implementation parity gate against
-`timsim-chem` remains in rustims, where all three implementations are available.
+## Python bindings — [`mscorepy`](./mscorepy)
 
-Later: `ms-io` (Bruker TDF read/write) joins this foundation repo (R3).
+A **pyo3 wheel over `mscore` + `ms-chem` only** — the MS-general primitives (ProForma tokenizer, peptide +
+product-ion series, mass/mz/CCS chemistry, UNIMOD) with **no `ms-io`/timsTOF in its dependency closure**
+(verified). It's the deliberately small shared library that the `pepdl` peptide-DL stack — and its consumers
+[`timsim-predict`](https://github.com/theGreatHerrLebert/timsim-predict) and
+[`sagepy-rescore`](https://github.com/theGreatHerrLebert/sagepy-rescore) — depend on, instead of the heavy full
+connector. Built with maturin; not on PyPI yet (installed from git).
+
+```bash
+pip install "mscorepy @ git+https://github.com/theGreatHerrLebert/mscore.git#subdirectory=mscorepy"
+```
+
+Extracted from the rustims monorepo; the cross-implementation chemistry parity gate against `timsim-chem`
+lives in rustims, where all three implementations are available.
