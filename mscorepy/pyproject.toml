@@ -1,0 +1,13 @@
+[build-system]
+requires = ["maturin>=1.2,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "mscorepy"
+description = "Python bindings for mscore + ms-chem — MS-general primitives (tokenizer, peptide/product-ion series, chemistry). timsTOF-free."
+requires-python = ">=3.11"
+license = { text = "MIT" }
+classifiers = ["Programming Language :: Rust", "Programming Language :: Python :: 3"]
+
+[tool.maturin]
+module-name = "mscorepy"
