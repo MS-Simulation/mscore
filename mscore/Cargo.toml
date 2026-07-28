@@ -5,10 +5,10 @@ edition = "2021"
 authors = ["David Teschner <davidteschner@googlemail.com>"]
 description = "A Rust library providing core operations for computational mass spectrometry proteomics."
 license = "MIT" 
-repository = "https://github.com/theGreatHerrLebert/rustims" 
+repository = "https://github.com/theGreatHerrLebert/mscore"
 documentation = "https://docs.rs/mscore"
 readme = "README.md"
-keywords = ["statistics", "matrix", "scoring", "parallel"]
+keywords = ["mass-spectrometry", "proteomics", "isotopes", "timstof", "peptides"]
 categories = ["mathematics", "science", "data-structures"]
 rust-version = "1.84"
 
@@ -39,7 +39,3 @@ rand = "0.8.5"
 ordered-float = "4.6.0"
 # Binary serialization
 bincode = "2.0.0-rc.3"
-
-
-[package.metadata.docs.rs]
-features = ["all"]

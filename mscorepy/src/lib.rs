@@ -1,6 +1,7 @@
 //! `mscorepy` — Python bindings for the `mscore` + `ms-chem` MS-general primitives: peptides,
-//! product-ion series, chemistry (mass/mz/CCS), UNIMOD, tokenizer, spectra. Deliberately timsTOF-free —
-//! no `ms-io` / `timsim` in the dependency closure. The shared primitives layer `pepdl` builds on.
+//! product-ion series, chemistry (mass/mz/CCS), UNIMOD, tokenizer, spectra. No `ms-io` / `timsim` in the
+//! dependency closure, so no TDF/Bruker-file I/O (some `mscore::timstof` in-memory types, such as
+//! `TimsSpectrum`, are bound). The shared primitives layer `pepdl` builds on.
 use pyo3::prelude::*;
 use pyo3::wrap_pymodule;
 

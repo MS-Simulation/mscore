@@ -24,8 +24,10 @@ suite before unification, which also surfaced and fixed a selenocysteine-mass bu
 ## Python bindings — [`mscorepy`](./mscorepy)
 
 A **pyo3 wheel over `mscore` + `ms-chem` only** — the MS-general primitives (ProForma tokenizer, peptide +
-product-ion series, mass/mz/CCS chemistry, UNIMOD) with **no `ms-io`/timsTOF in its dependency closure**
-(verified). It's the deliberately small shared library that the `pepdl` peptide-DL stack — and its consumers
+product-ion series, mass/mz/CCS chemistry, UNIMOD) with **no `ms-io` in its dependency closure**, hence no
+TDF/Bruker-file I/O, no bundled SQLite and no polars. (It does bind a few `mscore::timstof` data structures,
+e.g. `PyTimsSpectrum` — those are plain in-memory types, not file readers.) It's the deliberately small
+shared library that the `pepdl` peptide-DL stack — and its consumers
 [`timsim-predict`](https://github.com/theGreatHerrLebert/timsim-predict) and
 [`sagepy-rescore`](https://github.com/theGreatHerrLebert/sagepy-rescore) — depend on, instead of the heavy full
 connector. Built with maturin; not on PyPI yet (installed from git).

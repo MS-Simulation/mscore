@@ -895,12 +895,6 @@ name = "ms-chem"
 version = "0.1.0"
 
 [[package]]
-name = "ms-chem"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "207f953a49ab56d79c1cbacaca979301e576fe651d971914775827914fe41256"
-
-[[package]]
 name = "ms-io"
 version = "0.2.0"
 dependencies = [
@@ -908,7 +902,7 @@ dependencies = [
  "byteorder",
  "libloading",
  "lzf",
- "mscore 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mscore",
  "polars",
  "rand",
  "rayon",
@@ -925,25 +919,7 @@ version = "0.5.0"
 dependencies = [
  "bincode 2.0.1",
  "itertools",
- "ms-chem 0.1.0",
- "nalgebra",
- "ordered-float",
- "rand",
- "rayon",
- "regex",
- "serde",
- "statrs",
-]
-
-[[package]]
-name = "mscore"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bbaade87839de0e34a81705cb5739749065020600a1126d4528733b155a729a6"
-dependencies = [
- "bincode 2.0.1",
- "itertools",
- "ms-chem 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ms-chem",
  "nalgebra",
  "ordered-float",
  "rand",
@@ -957,8 +933,8 @@ dependencies = [
 name = "mscorepy"
 version = "0.1.0"
 dependencies = [
- "ms-chem 0.1.0",
- "mscore 0.5.0",
+ "ms-chem",
+ "mscore",
  "numpy",
  "pyo3",
  "rayon",
