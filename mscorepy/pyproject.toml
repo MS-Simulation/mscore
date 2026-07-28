@@ -4,6 +4,10 @@ build-backend = "maturin"
 
 [project]
 name = "mscorepy"
+# Maturin reads the version from mscorepy/Cargo.toml — declared dynamic so the crate stays the single
+# source of truth. Without this (or a literal version) the [project] table is not PEP 621-valid and the
+# build backend refuses it, so `pip install git+...` fails at metadata time.
+dynamic = ["version"]
 description = "Python bindings for mscore + ms-chem — MS-general primitives (tokenizer, peptide/product-ion series, chemistry). timsTOF-free."
 requires-python = ">=3.11"
 license = { text = "MIT" }
