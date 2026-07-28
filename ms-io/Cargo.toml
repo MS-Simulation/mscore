@@ -2,8 +2,8 @@
 name = "ms-io"
 version = "0.2.0"
 edition = "2021"
-authors = ["David Teschner <davidteschner@googlemail.com>"] # Add your name and email
-description = "Bruker timsTOF TDF read/write. Part of the rustims foundation."
+authors = ["David Teschner <davidteschner@googlemail.com>"]
+description = "Bruker timsTOF TDF read/write (SDK-free or vendor SDK) with 4D feature finding and pseudo-spectra."
 license = "MIT"
 repository = "https://github.com/theGreatHerrLebert/mscore"
 documentation = "https://docs.rs/ms-io"
