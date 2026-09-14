@@ -915,7 +915,7 @@ dependencies = [
 
 [[package]]
 name = "mscore"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "bincode 2.0.1",
  "itertools",
