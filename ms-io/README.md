@@ -2,7 +2,7 @@
 
 Bruker **timsTOF** I/O in pure Rust — reading and writing the `.d` / TDF format — plus a 4D
 (m/z × ion mobility × retention time × intensity) feature-finding and pseudo-spectrum pipeline on
-top of it. Part of the [mscore](https://github.com/theGreatHerrLebert/mscore) foundation; it builds
+top of it. Part of the [mscore](https://github.com/MS-Simulation/mscore) foundation; it builds
 on [`mscore`](https://crates.io/crates/mscore) for its frame and spectrum data structures.
 
 **Scope:** timsTOF only. No Thermo, SCIEX, mzML or other generic vendor support lives here.
@@ -45,4 +45,4 @@ toolchain** is required, and **polars** for dataframe output — expect a non-tr
 
 ## License
 
-MIT — see [LICENSE](https://github.com/theGreatHerrLebert/mscore/blob/main/LICENSE).
+MIT — see [LICENSE](https://github.com/MS-Simulation/mscore/blob/main/LICENSE).

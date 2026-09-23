@@ -5,7 +5,7 @@ edition = "2021"
 rust-version = "1.84"
 license = "MIT"
 description = "Python bindings for mscore + ms-chem: MS-general peptide/chemistry/spectrum primitives (tokenizer, product-ion series, mass/mz/CCS). No ms-io/timsim in the closure, so no TDF/Bruker-file I/O."
-repository = "https://github.com/theGreatHerrLebert/mscore"
+repository = "https://github.com/MS-Simulation/mscore"
 
 [lib]
 name = "mscorepy"

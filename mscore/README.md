@@ -2,7 +2,7 @@
 
 Core data structures and algorithms for computational mass-spectrometry proteomics, in pure Rust —
 no PyO3, no file-format I/O. The middle layer of the
-[mscore](https://github.com/theGreatHerrLebert/mscore) foundation: it sources its chemistry tables
+[mscore](https://github.com/MS-Simulation/mscore) foundation: it sources its chemistry tables
 from [`ms-chem`](https://crates.io/crates/ms-chem) and is the base that
 [`ms-io`](https://crates.io/crates/ms-io) builds on.
 
@@ -35,4 +35,4 @@ from [`ms-chem`](https://crates.io/crates/ms-chem) and is the base that
 
 ## License
 
-MIT — see [LICENSE](https://github.com/theGreatHerrLebert/mscore/blob/main/LICENSE).
+MIT — see [LICENSE](https://github.com/MS-Simulation/mscore/blob/main/LICENSE).
